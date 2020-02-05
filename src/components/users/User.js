@@ -1,19 +1,16 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useContext } from "react";
 import Spinner from "../layout/Spinner";
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import GitHubContext from "../../context/github/gitHubContext";
 
-const User = ({ loading, user, getSingleUser, match }) => {
+const User = ({ match }) => {
+  const gitHubContext = useContext(GitHubContext);
+  const { loading, user, getSingleUser } = gitHubContext;
   useEffect(() => {
     console.log("params ", match.params.login);
     getSingleUser(match.params.login); // login == userName
     //eslint-disable-next-line
   }, []);
-
-  // componentDidMount() {
-  //   console.log("params ", match.params.login);
-  //   getSingleUser(match.params.login); // login == userName
-  // }
 
   const { name, avatar_url, location, bio, html_url, hireable } = user;
 
@@ -56,12 +53,6 @@ const User = ({ loading, user, getSingleUser, match }) => {
       </div>
     </Fragment>
   );
-};
-
-User.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  user: PropTypes.object.isRequired,
-  getSingleUser: PropTypes.func.isRequired
 };
 
 export default User;
